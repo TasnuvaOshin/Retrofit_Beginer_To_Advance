@@ -19,8 +19,20 @@ public interface RetrofitInterface {
     Call<List<PostDataCommentClass>> getPostCommentData(@Path("id") int id);
 
 
-    //this is for query data passing
-    @GET("posts")
-    Call<List<PostDataCommentClass>> PostComment(@Query("userId") int id);
+//    //this is for query data passing (Single Query)
+//    @GET("posts")
+//    Call<List<PostDataCommentClass>> PostComment(
+//            @Query("userId") int id
+//
+//    );
+//
 
+    //this is for query data passing (Multiple  Query)
+    @GET("posts")
+    Call<List<PostDataCommentClass>> PostComment(
+            @Query("userId") int id,
+            @Query("_sort") String sort,
+            @Query("_order") String order
+
+    );
 }
