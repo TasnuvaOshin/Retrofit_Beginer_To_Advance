@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
         Call<List<PostDataClass>> call = retrofitInterface.getPostData();
-        Call<List<PostDataCommentClass>> callForComment = retrofitInterface.getPostCommentData(3);
+       // Call<List<PostDataCommentClass>> callForComment = retrofitInterface.getPostCommentData(3); //this is for path wise data fetching
+        Call<List<PostDataCommentClass>> callForComment = retrofitInterface.PostComment(3);         //this is for query wise data fetching
 
         callForComment.enqueue(new Callback<List<PostDataCommentClass>>() {
             @Override
