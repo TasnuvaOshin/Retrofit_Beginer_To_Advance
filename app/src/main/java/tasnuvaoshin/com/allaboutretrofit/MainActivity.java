@@ -7,14 +7,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tasnuvaoshin.com.allaboutretrofit.API.RetrofitInterface;
+import tasnuvaoshin.com.allaboutretrofit.Model.GetDataClass;
+import tasnuvaoshin.com.allaboutretrofit.Model.GetDataCommentClass;
 import tasnuvaoshin.com.allaboutretrofit.Model.PostDataClass;
-import tasnuvaoshin.com.allaboutretrofit.Model.PostDataCommentClass;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +22,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private Map<String, String> myParameter;
+    private PostDataClass postDataClass; //for post method work
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,57 +38,87 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
 
+        postDataClass = new PostDataClass(5, "oshin", "tasnuva oshin");
+
         //this is the retrofit initialization
 
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
-        Call<List<PostDataClass>> call = retrofitInterface.getPostData();
+        Call<List<GetDataClass>> call = retrofitInterface.getPostData();
         // Call<List<PostDataCommentClass>> callForComment = retrofitInterface.getPostCommentData(3); //this is for path wise data fetching
         // Call<List<PostDataCommentClass>> callForComment = retrofitInterface.PostComment(3);         //this is for query wise data fetching for single query
 
         //mulitple query calling
-        Call<List<PostDataCommentClass>> callForComment = retrofitInterface.PostCommentMap(myParameter);
-        callForComment.enqueue(new Callback<List<PostDataCommentClass>>() {
+        //   Call<List<GetDataCommentClass>> callForComment = retrofitInterface.PostCommentMap(myParameter);
+        Call<PostDataClass> callForComment = retrofitInterface.setPostData(postDataClass); //this is for post method
+
+
+        callForComment.enqueue(new Callback<PostDataClass>() {
             @Override
-            public void onResponse(Call<List<PostDataCommentClass>> call, Response<List<PostDataCommentClass>> response) {
+            public void onResponse(Call<PostDataClass> call, Response<PostDataClass> response) {
                 if (!response.isSuccessful()) {
                     Log.d("error", String.valueOf(response.code()));
                     return;
-                } else {
-
-                    List<PostDataCommentClass> commentClasses = response.body();
-
-                    for (PostDataCommentClass commentClasses1 : commentClasses) {
-                        String content = "";
-                        content += "ID: " + commentClasses1.getId() + "\n";
-                        content += "ID: " + commentClasses1.getEmail() + "\n";
-                        content += "ID: " + commentClasses1.getName() + "\n";
-                        content += "ID: " + commentClasses1.getBody() + "\n";
-                        content += "ID: " + commentClasses1.getPostId() + "\n";
-                        Log.d("Only Post Data", content); //just for checking issue
-                        textView.append(content);
-                    }
                 }
+                PostDataClass postResponse = response.body();
+                String content = "";
+
+                        content += "ID: " + postResponse.getTitle() + "\n";
+                        content += "ID: " + postResponse.getUserId() + "\n";
+                        content += "ID: " + postResponse.getBody() + "\n";
+
+                        Log.d("response", String.valueOf(response.code()));
+                textView.setText(content);
+
             }
 
             @Override
-            public void onFailure(Call<List<PostDataCommentClass>> call, Throwable t) {
-                Log.d("error", String.valueOf(t.getMessage()));
+            public void onFailure(Call<PostDataClass> call, Throwable t) {
 
             }
         });
 
-        call.enqueue(new Callback<List<PostDataClass>>() {
+//       callForComment.enqueue(new Callback<List<GetDataCommentClass>>() {
+//            @Override
+//            public void onResponse(Call<List<GetDataCommentClass>> call, Response<List<GetDataCommentClass>> response) {
+//                if (!response.isSuccessful()) {
+//                    Log.d("error", String.valueOf(response.code()));
+//                    return;
+//                } else {
+//
+//                    List<GetDataCommentClass> commentClasses = response.body();
+//
+//                    for (GetDataCommentClass commentClasses1 : commentClasses) {
+//                        String content = "";
+//                        content += "ID: " + commentClasses1.getId() + "\n";
+//                        content += "ID: " + commentClasses1.getEmail() + "\n";
+//                        content += "ID: " + commentClasses1.getName() + "\n";
+//                        content += "ID: " + commentClasses1.getBody() + "\n";
+//                        content += "ID: " + commentClasses1.getPostId() + "\n";
+//                        Log.d("Only Post Data", content); //just for checking issue
+//                        textView.append(content);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<GetDataCommentClass>> call, Throwable t) {
+//                Log.d("error", String.valueOf(t.getMessage()));
+//
+//            }
+//        });
+
+        call.enqueue(new Callback<List<GetDataClass>>() {
             @Override
-            public void onResponse(Call<List<PostDataClass>> call, Response<List<PostDataClass>> response) {
+            public void onResponse(Call<List<GetDataClass>> call, Response<List<GetDataClass>> response) {
 
                 if (!response.isSuccessful()) {
                     Log.d("error", String.valueOf(response.code()));
                     return;
                 } else {
 
-                    List<PostDataClass> postDataClasses = response.body();
+                    List<GetDataClass> postDataClasses = response.body();
 
-                    for (PostDataClass postDataClass : postDataClasses) {
+                    for (GetDataClass postDataClass : postDataClasses) {
                         String content = "";
                         content += "ID: " + postDataClass.getId() + "\n";
                         content += "ID: " + postDataClass.getUserId() + "\n";
@@ -101,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<PostDataClass>> call, Throwable t) {
+            public void onFailure(Call<List<GetDataClass>> call, Throwable t) {
                 Log.d("error", "Something Went Wrong"
                 );
             }

@@ -1,6 +1,6 @@
 package tasnuvaoshin.com.allaboutretrofit.Model;
 
-public class PostDataCommentClass {
+public class GetDataCommentClass {
 
     private int postId;
     private int id;
@@ -48,10 +48,10 @@ public class PostDataCommentClass {
         this.body = body;
     }
 
-    public PostDataCommentClass() {
+    public GetDataCommentClass() {
     }
 
-    public PostDataCommentClass(int postId, int id, String name, String email, String body) {
+    public GetDataCommentClass(int postId, int id, String name, String email, String body) {
         this.postId = postId;
         this.id = id;
         this.name = name;

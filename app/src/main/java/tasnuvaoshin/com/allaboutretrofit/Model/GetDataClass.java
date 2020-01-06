@@ -1,10 +1,10 @@
 package tasnuvaoshin.com.allaboutretrofit.Model;
 
-public class PostDataClass {
+public class GetDataClass {
     private int userId;
-    private  int id;
+    private int id;
     private String title;
-    private  String body;
+    private String body;
 
     public int getUserId() {
         return userId;
@@ -38,11 +38,12 @@ public class PostDataClass {
         this.body = body;
     }
 
-    public PostDataClass() {
+    public GetDataClass() {
     }
 
-    public PostDataClass(int userId,String title, String body) {
+    public GetDataClass(int userId, int id, String title, String body) {
         this.userId = userId;
+        this.id = id;
         this.title = title;
         this.body = body;
     }
