@@ -1,5 +1,13 @@
 package tasnuvaoshin.com.allaboutretrofit;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -8,16 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tasnuvaoshin.com.allaboutretrofit.API.RetrofitInterface;
 import tasnuvaoshin.com.allaboutretrofit.Model.GetDataClass;
-import tasnuvaoshin.com.allaboutretrofit.Model.GetDataCommentClass;
 import tasnuvaoshin.com.allaboutretrofit.Model.PostDataClass;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textView;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         //mulitple query calling
         //   Call<List<GetDataCommentClass>> callForComment = retrofitInterface.PostCommentMap(myParameter);
-        Call<PostDataClass> callForComment = retrofitInterface.setPostData(postDataClass); //this is for post method
+        Call<PostDataClass> callForComment = retrofitInterface.SetPostFromUrl(2,"oshintasnu","my text"); //this is for post method
 
 
         callForComment.enqueue(new Callback<PostDataClass>() {
@@ -62,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
                 PostDataClass postResponse = response.body();
                 String content = "";
 
-                        content += "ID: " + postResponse.getTitle() + "\n";
-                        content += "ID: " + postResponse.getUserId() + "\n";
-                        content += "ID: " + postResponse.getBody() + "\n";
+                content += "ID: " + postResponse.getTitle() + "\n";
+                content += "ID: " + postResponse.getUserId() + "\n";
+                content += "ID: " + postResponse.getBody() + "\n";
 
-                        Log.d("response", String.valueOf(response.code()));
+                Log.d("response", String.valueOf(response.code()));
                 textView.setText(content);
 
             }
