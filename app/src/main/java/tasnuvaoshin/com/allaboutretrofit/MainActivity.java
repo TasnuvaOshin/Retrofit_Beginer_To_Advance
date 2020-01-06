@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         //mulitple query calling
         //   Call<List<GetDataCommentClass>> callForComment = retrofitInterface.PostCommentMap(myParameter);
-        Call<PostDataClass> callForComment = retrofitInterface.SetPostFromUrl(2,"oshintasnu","my text"); //this is for post method
+       // Call<PostDataClass> callForComment = retrofitInterface.SetPostFromUrl(2,"oshintasnu","my text"); //this is for post method
 
+Call<PostDataClass> callForComment = retrofitInterface.SetPostFromUrlMap(myParameter); //this is for post method
 
         callForComment.enqueue(new Callback<PostDataClass>() {
             @Override
