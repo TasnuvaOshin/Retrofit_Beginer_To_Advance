@@ -8,6 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tasnuvaoshin.com.allaboutretrofit.API.RetrofitInterface;
 import tasnuvaoshin.com.allaboutretrofit.Model.PostDataClass;
+import tasnuvaoshin.com.allaboutretrofit.Model.PostDataCommentClass;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -31,8 +32,42 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+
+        //this is the retrofit initialization
+
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
         Call<List<PostDataClass>> call = retrofitInterface.getPostData();
+        Call<List<PostDataCommentClass>> callForComment = retrofitInterface.getPostCommentData(3);
+
+        callForComment.enqueue(new Callback<List<PostDataCommentClass>>() {
+            @Override
+            public void onResponse(Call<List<PostDataCommentClass>> call, Response<List<PostDataCommentClass>> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("error", String.valueOf(response.code()));
+                    return;
+                } else {
+
+                    List<PostDataCommentClass> commentClasses = response.body();
+
+                    for (PostDataCommentClass commentClasses1 : commentClasses) {
+                        String content = "";
+                        content += "ID: " + commentClasses1.getId() + "\n";
+                        content += "ID: " + commentClasses1.getEmail() + "\n";
+                        content += "ID: " + commentClasses1.getName() + "\n";
+                        content += "ID: " + commentClasses1.getBody() + "\n";
+                        content += "ID: " + commentClasses1.getPostId() + "\n";
+                        Log.d("Only Post Data", content); //just for checking issue
+                        textView.append(content);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PostDataCommentClass>> call, Throwable t) {
+                Log.d("error", String.valueOf(t.getMessage()));
+
+            }
+        });
 
         call.enqueue(new Callback<List<PostDataClass>>() {
             @Override
@@ -51,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
                         content += "ID: " + postDataClass.getUserId() + "\n";
                         content += "ID: " + postDataClass.getTitle() + "\n";
                         content += "ID: " + postDataClass.getBody() + "\n";
-
-                        textView.append(content);
+                        Log.d("Only Post Data", content); //just for checking issue
+                        //  textView.append(content);
                     }
                 }
             }

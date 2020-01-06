@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tasnuvaoshin.com.allaboutretrofit">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="tasnuvaoshin.com.allaboutretrofit"
+    tools:ignore="ExtraText">
 
+    //internet permission
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
