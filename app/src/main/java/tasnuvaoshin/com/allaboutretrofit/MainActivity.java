@@ -16,17 +16,22 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textView;
+    private Map<String, String> myParameter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.textview);
+        myParameter = new HashMap<>();
 
+        myParameter.put("userId", "1");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://jsonplaceholder.typicode.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -37,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
         Call<List<PostDataClass>> call = retrofitInterface.getPostData();
-       // Call<List<PostDataCommentClass>> callForComment = retrofitInterface.getPostCommentData(3); //this is for path wise data fetching
-       // Call<List<PostDataCommentClass>> callForComment = retrofitInterface.PostComment(3);         //this is for query wise data fetching for single query
+        // Call<List<PostDataCommentClass>> callForComment = retrofitInterface.getPostCommentData(3); //this is for path wise data fetching
+        // Call<List<PostDataCommentClass>> callForComment = retrofitInterface.PostComment(3);         //this is for query wise data fetching for single query
 
         //mulitple query calling
-        Call<List<PostDataCommentClass>> callForComment = retrofitInterface.PostComment(3,"id","desc");
+        Call<List<PostDataCommentClass>> callForComment = retrofitInterface.PostCommentMap(myParameter);
         callForComment.enqueue(new Callback<List<PostDataCommentClass>>() {
             @Override
             public void onResponse(Call<List<PostDataCommentClass>> call, Response<List<PostDataCommentClass>> response) {
