@@ -50,6 +50,21 @@ public class MainActivity extends AppCompatActivity {
         //   Call<List<GetDataCommentClass>> callForComment = retrofitInterface.PostCommentMap(myParameter);
        // Call<PostDataClass> callForComment = retrofitInterface.SetPostFromUrl(2,"oshintasnu","my text"); //this is for post method
 
+
+        Call<Void> call1 = retrofitInterface.DeleteData(1);
+
+        call1.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("delete", String.valueOf(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+
 Call<PostDataClass> callForComment = retrofitInterface.PatchData(1,postDataClass); //this is for post method
 
         callForComment.enqueue(new Callback<PostDataClass>() {
